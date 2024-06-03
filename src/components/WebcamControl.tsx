@@ -9,7 +9,6 @@ import * as faceLandmarksDetection from "@tensorflow-models/face-landmarks-detec
 
 const WebcamControl: React.FC = () => {
   const webcamRef = useRef<Webcam>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
   const [isWebcamOn, setIsWebcamOn] = useState<boolean>(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   
@@ -55,10 +54,42 @@ const WebcamControl: React.FC = () => {
   const detect = async (detector: faceLandmarksDetection.FaceLandmarksDetector, image: HTMLImageElement) => {
     const predictions = await detector.estimateFaces(image); // Pass the captured image
     if (predictions.length) {
-      console.log("here");
-      console.log(predictions);
+      // Retrieve the canvas element
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (ctx) { // Null check for ctx
+        // Set canvas dimensions to match the image dimensions
+        canvas.width = image.width;
+        canvas.height = image.height;
+  
+        // Draw the image on the canvas
+        ctx.drawImage(image, 0, 0, image.width, image.height);
+  
+        // Draw rectangles around the detected faces
+        ctx.strokeStyle = '#00FF00'; // Green color
+        ctx.lineWidth = 2;
+        predictions.forEach(prediction => {
+          const xmax = prediction.box.xMax;
+          const xmin = prediction.box.xMin;
+          const ymin = prediction.box.yMin; 
+          const ymax = prediction.box.yMax;
+          const width = prediction.box.width;
+          const height = prediction.box.height;
+          ctx.strokeRect(xmin, ymin, width, height);
+        });
+  
+        // Append the canvas to the document body or any other desired location
+        document.body.appendChild(canvas);
+  
+        // Optionally, you can also log the predictions to the console
+        console.log(predictions);
+      } else {
+        console.error('Failed to obtain 2D drawing context from canvas');
+      }
     }
   };
+  
 
   return (
     <div>
