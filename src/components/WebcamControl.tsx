@@ -24,16 +24,16 @@ const WebcamControl: React.FC = () => {
   };
 
   const handleCapture = async () => {
-    console.log("please work");
+    //console.log("please work");
     const imageSrc = webcamRef.current?.getScreenshot();
-    console.log("hererreererere");
+    //console.log("hererreererere");
     if (imageSrc) {
       const image = new Image();
       image.src = imageSrc;
-      console.log("did i get here");
+      //console.log("did i get here");
       image.onload = () => {
         // Run face detection on the captured image
-        console.log("running face detect");
+        //console.log("running face detect");
         runFaceDetect(image);
       };
     }
@@ -45,9 +45,10 @@ const WebcamControl: React.FC = () => {
     const detectorConfig: faceLandmarksDetection.MediaPipeFaceMeshTfjsModelConfig = {
       runtime: 'tfjs', // Using 'tfjs' runtime
       refineLandmarks: true, // Optional but recommended
+      maxFaces: 5
     };
     const detector = await faceLandmarksDetection.createDetector(model, detectorConfig);
-    console.log("ran face detect, running detect");
+    //console.log("ran face detect, running detect");
     detect(detector, image);
   };
 
@@ -70,10 +71,10 @@ const WebcamControl: React.FC = () => {
         ctx.strokeStyle = '#00FF00'; // Green color
         ctx.lineWidth = 2;
         predictions.forEach(prediction => {
-          const xmax = prediction.box.xMax;
+          //const xmax = prediction.box.xMax;
           const xmin = prediction.box.xMin;
           const ymin = prediction.box.yMin; 
-          const ymax = prediction.box.yMax;
+          //const ymax = prediction.box.yMax;
           const width = prediction.box.width;
           const height = prediction.box.height;
           ctx.strokeRect(xmin, ymin, width, height);
@@ -90,19 +91,25 @@ const WebcamControl: React.FC = () => {
     }
   };
   
-
+  
   return (
     <div>
-      <h2>Webcam Control</h2>
-      {isWebcamOn && (
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width="100%"
-          videoConstraints={{ facingMode: 'user' }}
-        />
-      )}
+      <div className="App-header">
+        <h2>Webcam Control</h2>
+      </div>
+      <div className="canvas-container">
+        {isWebcamOn && (
+          <div style={{ position: 'relative' }}>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width="100%"
+              videoConstraints={{ facingMode: 'user' }}
+            />
+          </div>
+        )}
+      </div>
       <div className="button-container">
         {!isWebcamOn ? (
           <button onClick={handleStart}>Start Webcam</button>

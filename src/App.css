@@ -15,14 +15,16 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* Added to create space between items */
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px;
 }
+
 button {
   margin: 10px;
   padding: 10px 20px;
@@ -36,13 +38,12 @@ img {
 }
 
 .button-container {
-  display: flex;
-  justify-content: center;
   margin-top: 10px;
 }
 
-.button-container button {
-  margin: 0 10px;
+.canvas-container {
+  background-color: white;
+  flex: 1; /* Added to make it take up remaining space */
 }
 
 canvas {
