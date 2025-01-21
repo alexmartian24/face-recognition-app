@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This project basically just is a front-end app to discover faces through the webcam feed.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
