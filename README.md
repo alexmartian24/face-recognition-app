@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project basically just is a front-end app to discover faces through the webcam feed.
 
+deployed using github pages
 
 ## Available Scripts
 
